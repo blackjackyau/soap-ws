@@ -51,7 +51,7 @@ import java.util.List;
  *
  * @author ole.matzura
  */
-abstract class AbstractSoapVersion implements SoapVersion {
+public abstract class AbstractSoapVersion implements SoapVersion {
     private final static Logger log = Logger.getLogger(AbstractSoapVersion.class);
 
     @SuppressWarnings("unchecked")

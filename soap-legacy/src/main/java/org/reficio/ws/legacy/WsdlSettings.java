@@ -44,7 +44,7 @@ package org.reficio.ws.legacy;
  *
  * @author Emil.Breding
  */
-interface WsdlSettings {
+public interface WsdlSettings {
     public final static String CACHE_WSDLS = WsdlSettings.class.getSimpleName() + "@" + "cache-wsdls";
 
     public final static String XML_GENERATION_TYPE_EXAMPLE_VALUE = WsdlSettings.class.getSimpleName() + "@"

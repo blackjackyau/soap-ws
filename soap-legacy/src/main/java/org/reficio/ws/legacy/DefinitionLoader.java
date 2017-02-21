@@ -40,7 +40,7 @@ package org.reficio.ws.legacy;
  * - minor fixes to make the class compile out of soapUI's code base
  */
 
-interface DefinitionLoader extends SchemaLoader {
+public interface DefinitionLoader extends SchemaLoader {
 
     void setProgressInfo(String info);
 

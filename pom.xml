@@ -28,11 +28,6 @@
         <module>soap-common</module>
         <module>soap-legacy</module>
         <module>soap-builder</module>
-        <module>soap-client</module>
-        <module>soap-server</module>
-        <module>soap-it</module>
-        <module>soap-examples</module>
-        <module>soap-test</module>
     </modules>
 
     <licenses>
@@ -85,7 +80,7 @@
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.3</version>
+                <version>2.0.1</version>
             </dependency>
             <dependency>
                 <groupId>commons-logging</groupId>

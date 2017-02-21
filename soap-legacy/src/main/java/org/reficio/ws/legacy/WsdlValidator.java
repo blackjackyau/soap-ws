@@ -39,7 +39,7 @@ import java.util.*;
  * @author Ole.Matzura
  */
 
-class WsdlValidator {
+public class WsdlValidator {
     private final static Logger log = Logger.getLogger(WsdlValidator.class);
 
     private final WsdlContext wsdlContext;

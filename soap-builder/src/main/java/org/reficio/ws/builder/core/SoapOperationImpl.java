@@ -31,7 +31,7 @@ import javax.xml.namespace.QName;
  * @author Tom Bujok
  * @since 1.0.0
  */
-class SoapOperationImpl implements SoapOperation, SoapOperationBuilder {
+public class SoapOperationImpl implements SoapOperation, SoapOperationBuilder {
 
     private final QName bindingName;
     private final String operationName;

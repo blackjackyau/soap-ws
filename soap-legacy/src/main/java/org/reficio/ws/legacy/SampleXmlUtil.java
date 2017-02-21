@@ -57,7 +57,7 @@ import java.util.*;
 /**
  * XmlBeans class for generating XML from XML Schemas
  */
-class SampleXmlUtil {
+public class SampleXmlUtil {
     private Random picker = new Random(1);
 
     private boolean soapEnc;
@@ -1004,10 +1004,10 @@ class SampleXmlUtil {
         String[] values = null;
         if (multiValuesProvider != null)
             values = multiValuesProvider.getMultiValues(element.getName()).toArray(new String[]{});
-        if (values != null)
-            xmlc.insertChars(StringUtils.join(values, "s"));
-        else if (sp.isDefault())
-            xmlc.insertChars(sp.getDefaultText());
+            if (values != null)
+                xmlc.insertChars(StringUtils.join(values, "s"));
+            else if (sp.isDefault())
+                xmlc.insertChars(sp.getDefaultText());
         else
             createSampleForType(element.getType(), xmlc);
         // -> <elem>stuff</elem>^

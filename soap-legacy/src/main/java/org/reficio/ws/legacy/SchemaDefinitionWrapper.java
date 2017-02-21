@@ -30,6 +30,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * This class was copied from org.reficio.ws.legacy as it's not available under official release yet.
+ * Changes done in this class:
+ *  - making it public so that classes outside this package can access this class.
+ *
  * This class was extracted from the soapUI code base by centeractive ag in October 2011.
  * The main reason behind the extraction was to separate the code that is responsible
  * for the generation of the SOAP messages from the rest of the soapUI's code that is
@@ -49,7 +53,7 @@ import java.util.Set;
  * - removal of dependencies and code parts that are out of scope of SOAP message generation
  * - minor fixes to make the class compile out of soapUI's code base
  */
-class SchemaDefinitionWrapper {
+public class SchemaDefinitionWrapper {
     private SchemaTypeSystem schemaTypes;
     private SchemaTypeLoader schemaTypeLoader;
 
@@ -58,6 +62,11 @@ class SchemaDefinitionWrapper {
     public SchemaDefinitionWrapper(Definition definition, String schemaURL) {
         this.definition = definition;
         loadSchemaTypes(new UrlSchemaLoader(schemaURL));
+    }
+
+    public SchemaDefinitionWrapper(Definition definition, DefinitionLoader loader) {
+        this.definition = definition;
+        loadSchemaTypes(loader);
     }
 
     public SchemaTypeLoader getSchemaTypeLoader() {

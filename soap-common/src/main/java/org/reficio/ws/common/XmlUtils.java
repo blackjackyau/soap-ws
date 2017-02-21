@@ -18,7 +18,6 @@
  */
 package org.reficio.ws.common;
 
-import org.custommonkey.xmlunit.XMLUnit;
 import org.reficio.ws.SoapException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -37,6 +36,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Fixed line 126 from
+ *  TransformerFactory tf = TransformerFactory.newInstance();
+ *  to  TransformerFactory tf = new com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl();
+ *
  * @author Tom Bujok
  * @since 1.0.0
  */
@@ -119,7 +122,7 @@ public final class XmlUtils {
     public static String serializePretty(Document document) {
         try {
             Writer out = new StringWriter();
-            TransformerFactory tf = TransformerFactory.newInstance();
+            TransformerFactory tf = new com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl();
             Transformer transformer = tf.newTransformer();
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
@@ -163,18 +166,6 @@ public final class XmlUtils {
             }
         } else {
             node.setTextContent(" ");
-        }
-    }
-
-    public static boolean isIdenticalNormalizedWithoutValues(String expected, String current) {
-        String expectedProcessed = normalizeAndRemoveValues(expected);
-        String currentProcessed = normalizeAndRemoveValues(current);
-        try {
-            return XMLUnit.compareXML(expectedProcessed, currentProcessed).identical();
-        } catch (SAXException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 

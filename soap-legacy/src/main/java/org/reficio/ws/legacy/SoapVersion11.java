@@ -54,7 +54,7 @@ import java.net.URL;
  *
  * @author ole.matzura
  */
-class SoapVersion11 extends AbstractSoapVersion {
+public class SoapVersion11 extends AbstractSoapVersion {
     private final static QName envelopeQName = new QName(Constants.SOAP11_ENVELOPE_NS, "Envelope");
     private final static QName bodyQName = new QName(Constants.SOAP11_ENVELOPE_NS, "Body");
     private final static QName faultQName = new QName(Constants.SOAP11_ENVELOPE_NS, "Fault");

@@ -40,7 +40,7 @@ import java.util.List;
  * @author Tom Bujok
  * @since 1.0.0
  */
-class SoapBuilderImpl implements SoapBuilder {
+public class SoapBuilderImpl implements SoapBuilder {
 
     private final SoapLegacyFacade soapFacade;
     private final Binding binding;

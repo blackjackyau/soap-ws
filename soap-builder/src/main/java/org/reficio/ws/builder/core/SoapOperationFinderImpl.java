@@ -34,7 +34,7 @@ import java.util.List;
  * @author Tom Bujok
  * @since 1.0.0
  */
-class SoapOperationFinderImpl implements SoapOperationFinder {
+public class SoapOperationFinderImpl implements SoapOperationFinder {
 
     private final Binding binding;
 

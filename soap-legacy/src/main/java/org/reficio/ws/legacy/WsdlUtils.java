@@ -21,13 +21,37 @@ package org.reficio.ws.legacy;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import javax.wsdl.*;
+import javax.wsdl.Binding;
+import javax.wsdl.BindingFault;
+import javax.wsdl.BindingInput;
+import javax.wsdl.BindingOperation;
+import javax.wsdl.BindingOutput;
+import javax.wsdl.Definition;
+import javax.wsdl.Fault;
+import javax.wsdl.Input;
+import javax.wsdl.Message;
+import javax.wsdl.Operation;
+import javax.wsdl.OperationType;
+import javax.wsdl.Output;
+import javax.wsdl.Part;
+import javax.wsdl.Port;
+import javax.wsdl.Service;
 import javax.wsdl.extensions.ExtensibilityElement;
 import javax.wsdl.extensions.mime.MIMEContent;
 import javax.wsdl.extensions.mime.MIMEMultipartRelated;
 import javax.wsdl.extensions.mime.MIMEPart;
-import javax.wsdl.extensions.soap.*;
-import javax.wsdl.extensions.soap12.*;
+import javax.wsdl.extensions.soap.SOAPAddress;
+import javax.wsdl.extensions.soap.SOAPBinding;
+import javax.wsdl.extensions.soap.SOAPBody;
+import javax.wsdl.extensions.soap.SOAPFault;
+import javax.wsdl.extensions.soap.SOAPHeader;
+import javax.wsdl.extensions.soap.SOAPOperation;
+import javax.wsdl.extensions.soap12.SOAP12Address;
+import javax.wsdl.extensions.soap12.SOAP12Binding;
+import javax.wsdl.extensions.soap12.SOAP12Body;
+import javax.wsdl.extensions.soap12.SOAP12Fault;
+import javax.wsdl.extensions.soap12.SOAP12Header;
+import javax.wsdl.extensions.soap12.SOAP12Operation;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import java.io.UnsupportedEncodingException;
@@ -64,7 +88,7 @@ import java.util.Map;
  * @author Ole.Matzura
  */
 @SuppressWarnings("unchecked")
-class WsdlUtils {
+public class WsdlUtils {
     private final static Logger log = Logger.getLogger(WsdlUtils.class);
 
     public static <T extends ExtensibilityElement> T getExtensiblityElement(List<?> list, Class<T> clazz) {

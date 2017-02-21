@@ -32,7 +32,7 @@ public interface SoapOperationFinder {
 
     SoapOperationFinder inputName(String inputName);
 
-    SoapOperationFinder outputName(String inputName);
+    SoapOperationFinder outputName(String outputName);
 
     SoapOperationBuilder find();
 

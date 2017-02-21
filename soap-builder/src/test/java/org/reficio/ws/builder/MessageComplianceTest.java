@@ -20,17 +20,21 @@ package org.reficio.ws.builder;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.reficio.ws.SoapContext;
 import org.reficio.ws.common.ResourceUtils;
 import org.reficio.ws.legacy.SoapLegacyFacade;
+import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: Tom Bujok (tom.bujok@gmail.com)
@@ -40,6 +44,13 @@ import static org.junit.Assert.assertEquals;
 public class MessageComplianceTest {
 
     private final static Logger log = Logger.getLogger(MessageComplianceTest.class);
+
+    @BeforeClass
+    public static void setUpClass() {
+        XMLUnit.setIgnoreComments(true);
+        XMLUnit.setNormalizeWhitespace(true);
+        XMLUnit.setXSLTVersion("1.0");
+    }
 
     public static String getContent(String folderPath, String fileName) {
         URL fileUrl = ResourceUtils.getResourceWithAbsolutePackagePath(folderPath, fileName);
@@ -65,51 +76,56 @@ public class MessageComplianceTest {
             .build();
 
     @Test
-    public void testEmptyFaultSoap11() {
+    public void testEmptyFaultSoap11() throws IOException, SAXException {
         String emptyFaultSoap11 = SoapLegacyFacade.buildEmptyFault(SoapLegacyFacade.Soap.SOAP_1_1, context);
         log.info("\n" + emptyFaultSoap11);
         String expectedMsg = getContent("messages", "EmptyFault11.xml");
-        assertEquals(expectedMsg, emptyFaultSoap11);
+        compareResult(expectedMsg, emptyFaultSoap11);
     }
 
     @Test
-    public void testEmptyFaultSoap12() {
+    public void testEmptyFaultSoap12() throws IOException, SAXException {
         String emptyFaultSoap12 = SoapLegacyFacade.buildEmptyFault(SoapLegacyFacade.Soap.SOAP_1_2, context);
         log.info("\n" + emptyFaultSoap12);
         String expectedMsg = getContent("messages", "EmptyFault12.xml");
-        assertEquals(expectedMsg, emptyFaultSoap12);
+        compareResult(expectedMsg, emptyFaultSoap12);
     }
 
     @Test
-    public void testFaultSoap11() {
+    public void testFaultSoap11() throws IOException, SAXException {
         String faultSoap11 = SoapLegacyFacade.buildFault(SoapLegacyFacade.Soap.SOAP_1_1, "VersionMismatch", "Fault Message", context);
         log.info("\n" + faultSoap11);
         String expectedMsg = getContent("messages", "FaultVersionMismatch11.xml");
-        assertEquals(expectedMsg, faultSoap11);
+        compareResult(expectedMsg, faultSoap11);
     }
 
     @Test
-    public void testFaultSoap12() {
+    public void testFaultSoap12() throws IOException, SAXException {
         String faultSoap12 = SoapLegacyFacade.buildFault(SoapLegacyFacade.Soap.SOAP_1_2, "VersionMismatch", "Fault Message", context);
         log.info("\n" + faultSoap12);
         String expectedMsg = getContent("messages", "FaultVersionMismatch12.xml");
-        assertEquals(expectedMsg, faultSoap12);
+        compareResult(expectedMsg, faultSoap12);
     }
 
     @Test
-    public void testEmptyMessageSoap11() {
+    public void testEmptyMessageSoap11() throws IOException, SAXException {
         String emptyMessageSoap11 = SoapLegacyFacade.buildEmptyMessage(SoapLegacyFacade.Soap.SOAP_1_1, context);
         log.info("\n" + emptyMessageSoap11);
         String expectedMsg = getContent("messages", "EmptyMessage11.xml");
-        assertEquals(expectedMsg, emptyMessageSoap11);
+        compareResult(expectedMsg, emptyMessageSoap11);
     }
 
     @Test
-    public void testEmptyMessageSoap12() {
+    public void testEmptyMessageSoap12() throws IOException, SAXException {
         String emptyMessageSoap12 = SoapLegacyFacade.buildEmptyMessage(SoapLegacyFacade.Soap.SOAP_1_2, context);
         log.info("\n" + emptyMessageSoap12);
         String expectedMsg = getContent("messages", "EmptyMessage12.xml");
-        assertEquals(expectedMsg, emptyMessageSoap12);
+        compareResult(expectedMsg, emptyMessageSoap12);
     }
 
+    private void compareResult(String expected, String actual) throws IOException, SAXException {
+        Diff diff = XMLUnit.compareXML(expected, actual);
+        assertTrue(diff.toString(), diff.similar());
+        assertTrue(diff.toString(), diff.identical());
+    }
 }

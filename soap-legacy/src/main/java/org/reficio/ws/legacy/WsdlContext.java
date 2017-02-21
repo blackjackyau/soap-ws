@@ -29,7 +29,7 @@ import javax.wsdl.Definition;
  * Reficio™ - Reestablish your software!
  * www.reficio.org
  */
-class WsdlContext {
+public class WsdlContext {
 
     private final SoapMessageBuilder builder;
     private final Binding binding;

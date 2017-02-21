@@ -53,6 +53,15 @@ public final class Wsdl {
         }
     }
 
+    private Wsdl(String wsdlString) {
+        try {
+            this.wsdlUrl = null;
+            this.soapFacade = new SoapLegacyFacade(wsdlString);
+        } catch (WSDLException e) {
+            throw new SoapBuilderException(e);
+        }
+    }
+
     public static Wsdl parse(URL wsdlUrl) {
         Preconditions.checkNotNull(wsdlUrl, "URL of the WSDL cannot be null");
         return new Wsdl(wsdlUrl);
@@ -65,6 +74,10 @@ public final class Wsdl {
         } catch (MalformedURLException e) {
             throw new SoapBuilderException(e);
         }
+    }
+
+    public static Wsdl fromString(String wsdlString) {
+        return new Wsdl(wsdlString);
     }
 
     public List<QName> getBindings() {

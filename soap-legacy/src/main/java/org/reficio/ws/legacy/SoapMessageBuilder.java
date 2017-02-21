@@ -18,6 +18,8 @@
  */
 package org.reficio.ws.legacy;
 
+import static com.ibm.wsdl.Constants.FEATURE_IMPORT_DOCUMENTS;
+import static com.ibm.wsdl.Constants.FEATURE_VERBOSE;
 import com.ibm.wsdl.xml.WSDLReaderImpl;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.SchemaGlobalElement;
@@ -37,11 +39,14 @@ import javax.wsdl.extensions.soap12.SOAP12Binding;
 import javax.wsdl.xml.WSDLReader;
 import javax.xml.namespace.QName;
 import java.io.File;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import javax.wsdl.factory.WSDLFactory;
+import org.xml.sax.InputSource;
 
 /**
  * This class was extracted from the soapUI code base by centeractive ag in October 2011.
@@ -75,7 +80,7 @@ import java.util.List;
  */
 @ThreadSafe
 @SuppressWarnings("unchecked")
-class SoapMessageBuilder {
+public class SoapMessageBuilder {
 
     private final static Logger log = Logger.getLogger(SoapMessageBuilder.class);
 
@@ -97,6 +102,20 @@ class SoapMessageBuilder {
         reader.setFeature("javax.wsdl.verbose", false);
         this.definition = reader.readWSDL(wsdlUrl.toString());
         this.definitionWrapper = new SchemaDefinitionWrapper(definition, wsdlUrl.toString());
+    }
+
+    /**
+     * @param wsdlString Wsdl string
+     * @throws WSDLException thrown in case of import errors
+     */
+    public SoapMessageBuilder(String wsdlString) throws WSDLException {
+        InputSource source = new InputSource(new StringReader(wsdlString));
+        WSDLReader reader = WSDLFactory.newInstance().newWSDLReader();
+        reader.setFeature(FEATURE_VERBOSE, false);
+        reader.setFeature(FEATURE_IMPORT_DOCUMENTS, true);
+        this.definition = reader.readWSDL(null, source);
+        DefinitionLoader loader = new StringSchemaLoader(definition.getDocumentBaseURI(), wsdlString);
+        this.definitionWrapper = new SchemaDefinitionWrapper(definition, loader);
     }
 
     /**
@@ -191,12 +210,12 @@ class SoapMessageBuilder {
         generator.setIgnoreOptional(true);
         String emptyResponse = buildEmptyFault(generator, soapVersion, context);
         if (soapVersion == SoapVersion.Soap11) {
-            emptyResponse = XmlUtils.setXPathContent(emptyResponse, "//faultcode", faultcode);
-            emptyResponse = XmlUtils.setXPathContent(emptyResponse, "//faultstring", faultstring);
+            emptyResponse = XmlUtils.setXPathContent(emptyResponse, ".//faultcode", faultcode);
+            emptyResponse = XmlUtils.setXPathContent(emptyResponse, ".//faultstring", faultstring);
         } else if (soapVersion == SoapVersion.Soap12) {
-            emptyResponse = XmlUtils.setXPathContent(emptyResponse, "//soap:Value", faultcode);
-            emptyResponse = XmlUtils.setXPathContent(emptyResponse, "//soap:Text", faultstring);
-            emptyResponse = XmlUtils.setXPathContent(emptyResponse, "//soap:Text/@xml:lang", "en");
+            emptyResponse = XmlUtils.setXPathContent(emptyResponse, ".//soap:Value", faultcode);
+            emptyResponse = XmlUtils.setXPathContent(emptyResponse, ".//soap:Text", faultstring);
+            emptyResponse = XmlUtils.setXPathContent(emptyResponse, ".//soap:Text/@xml:lang", "en");
         }
         return emptyResponse;
     }

@@ -136,8 +136,8 @@ public class ResourceUtils {
         String resourcePath = String.format("/%s/%s", packagePath, resourceName);
         String resourcePathUnixSeparators = FilenameUtils.separatorsToUnix(resourcePath);
         String resourcePathNoLeadingSeparators = removeLeadingUnixSeparators(resourcePathUnixSeparators);
-        String normalizedResourcePath = FilenameUtils.normalizeNoEndSeparator(resourcePathNoLeadingSeparators, true);
-        return normalizedResourcePath;
+        String normalizedResourcePath = FilenameUtils.normalizeNoEndSeparator(resourcePathNoLeadingSeparators);
+        return normalizedResourcePath.replaceAll("\\\\", "/"); //replace windows file separator to unix file separator
     }
 
     private static String removeLeadingUnixSeparators(String argument) {
