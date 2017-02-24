@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.reficio</groupId>
+    <groupId>org.github.blackjackyau</groupId>
     <artifactId>soap-legacy</artifactId>
     <packaging>bundle</packaging>
     <name>soap-legacy - 3rd party inherited code</name>
 
     <parent>
-        <groupId>org.reficio</groupId>
+        <groupId>org.github.blackjackyau</groupId>
         <artifactId>soap-ws</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
@@ -24,7 +24,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.reficio</groupId>
+            <groupId>org.github.blackjackyau</groupId>
             <artifactId>soap-common</artifactId>
             <version>${project.version}</version>
         </dependency>
